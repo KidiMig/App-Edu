@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearning+ - Architecture MVC avec IA Universelle</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>🚀 EduLearning+</h1>
+                <p>Architecture MVC + IA</p>
+            </div>
+            
+            <nav class="navigation" id="navigation">
+                <!-- Navigation sera générée par le contrôleur -->
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div id="content">
+                <!-- Le contenu sera injecté ici par les vues -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modals-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts MVC - ORDRE IMPORTANT CORRIGÉ -->
+    
+    <!-- 1. UTILITAIRES D'ABORD (requis par les autres composants) -->
+    <script src="assets/js/utils/EventBus.js"></script>
+    
+    <!-- 2. Modèles de base -->
+    <script src="assets/js/models/BaseModel.js"></script>
+    <script src="assets/js/models/UserModel.js"></script>
+    <script src="assets/js/models/ResourceModel.js"></script>
+    <script src="assets/js/models/StudentModel.js"></script>
+    
+    <!-- 3. Nouveau modèle IA Universelle -->
+    <script src="assets/js/models/UniversalPedagogyModel.js"></script>
+    
+    <!-- 4. Vues de base -->
+    <script src="assets/js/views/BaseView.js"></script>
+    
+    <!-- 5. Contrôleurs de base -->
+    <script src="assets/js/controllers/AppController.js"></script>
+    
+    <!-- 6. Nouveau contrôleur IA -->
+    <script src="assets/js/controllers/UniversalPedagogyController.js"></script>
+    
+    <!-- 7. Intégration IA (IMPORTANT: après tous les autres) -->
+    <script src="assets/js/integration/universal-ai-integration.js"></script>
+    
+    <!-- 8. Application principale (DOIT être en dernier) -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Script de diagnostic pour débugger les dépendances -->
+    <script>
+        // Vérification des dépendances au chargement
+        console.log('🔍 Vérification des dépendances...');
+        
+        const requiredClasses = [
+            'EventBus', 
+            'BaseModel',
+            'BaseView',
+            'AppController'
+        ];
+        
+        const missingClasses = [];
+        
+        requiredClasses.forEach(className => {
+            if (typeof window[className] === 'undefined') {
+                missingClasses.push(className);
+                console.error(`❌ Classe manquante: ${className}`);
+            } else {
+                console.log(`✅ Classe trouvée: ${className}`);
+            }
+        });
+        
+        if (missingClasses.length > 0) {
+            console.error('🚨 Classes manquantes détectées:', missingClasses);
+            
+            // Afficher une erreur utilisateur
+            document.body.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #dc3545, #fd7e14);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: Arial, sans-serif;
+                    color: white;
+                    z-index: 10000;
+                ">
+                    <div style="
+                        background: rgba(255, 255, 255, 0.1);
+                        padding: 40px;
+                        border-radius: 20px;
+                        text-align: center;
+                        max-width: 500px;
+                        backdrop-filter: blur(10px);
+                    ">
+                        <h1 style="font-size: 2em; margin-bottom: 20px;">🚨 Erreur de Chargement</h1>
+                        <p style="font-size: 1.2em; margin-bottom: 20px;">
+                            Certains fichiers JavaScript requis n'ont pas pu être chargés.
+                        </p>
+                        <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h3>Classes manquantes:</h3>
+                            <ul style="text-align: left; margin: 10px 0;">
+                                ${missingClasses.map(cls => `<li>${cls}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <p style="margin-bottom: 20px;">
+                            Vérifiez que tous les fichiers JavaScript sont présents dans le bon répertoire.
+                        </p>
+                        <button onclick="window.location.reload()" style="
+                            background: rgba(255, 255, 255, 0.2);
+                            color: white;
+                            border: 2px solid white;
+                            padding: 12px 25px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 16px;
+                        ">
+                            Recharger
+                        </button>
+                    </div>
+                </div>
+            `;
+        } else {
+            console.log('✅ Toutes les dépendances sont chargées');
+        }
+    </script>
+</body>
+</html>
